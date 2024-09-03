@@ -1,61 +1,57 @@
 import java.util.ArrayList;
 
-// classe para administrar a arraylist do tipo professor
-public class GerenciadorProfessor {
-    private ArrayList<Professor> professores;
+
+public class GerenciadorProfessor {// classe para administrar a arraylist do tipo professor
+    private ArrayList<Professor> professores;//atributo arraylist
 
     public GerenciadorProfessor(){
-        professores = new ArrayList<>();
+        professores = new ArrayList<>();//construtor que nao recebe parametro
     }
 
     //metodo para adicionar um professor a arraylist
     public void cadastrarProfessor(Professor professor){
+        //se o professor ja existe na lista o usuario é avisado
         if(buscarProfessor(professor.id) != null)
             System.out.println("Professor com id " + professor.id + " ja foi cadastrado, tente novamente");
         else
-        professores.add(professor);
+            //se não for encontrado o mesmo id entao é adicionado na arraylist
+            professores.add(professor);
     }
 
     public void excluirProfessor(int id){
-        //se o metodo buscar professor retornar nulo o professor com esse id nao existe
-        if(buscarProfessor(id) == null)
+        if(buscarProfessor(id) == null)//se o metodo buscar professor retornar nulo o professor com esse id nao existe
             System.out.println("Não existe professor com esse id");
-            //se encontrar ele vai ser apagado
-        else
+        else//se encontrar ele vai ser apagado
             professores.remove(buscarProfessor(id));
     }
 
     public Professor buscarProfessor(int id){
-        //for para percorrer toda a array lista professores
-        for(int i = 0; i < professores.size(); i++){
-            //comparaçao de ids
-            if(professores.get(i).id == id){
-                //retorna o professor na posiçao encontrada
-                return professores.get(i);
+        for(int i = 0; i < professores.size(); i++){//percorre toda a array lista professores
+            if(professores.get(i).id == id){//comparaçao de ids
+                return professores.get(i);//retorna o professor na posiçao encontrada
             }
         }
-        return null;
+        return null;//retorna nulo se nao achou
     }
 
     public void listarProfessores(){
+        //funçao que vai percorrer toda arraylist
         for(int i = 0; i < professores.size(); i++){
-            System.out.println(professores.get(i).toString());
+            System.out.println(professores.get(i).toString());//exibir o metodo ToString de cada um objeto
         }
     }
 
     public void atualizarProfessor(int id, double salario){
-        //comparaçao de ids
-        if(buscarProfessor(id) != null){
-            int posicao = professores.indexOf(buscarProfessor(id));
-
-            Professor novoPorfessor = new ProfessorClt(professores.get(posicao).nome,professores.get(posicao).id , salario);
-            professores.set(posicao, novoPorfessor);
-            System.out.println(professores.get(posicao));
+        if(buscarProfessor(id) != null){//vai procurar se existe realmente esse objeto
+            int posicao = professores.indexOf(buscarProfessor(id));//consegue o indice de onde o objeto encontrado esta na arraylist 
+            Professor novoPorfessor = new ProfessorClt(professores.get(posicao).nome,professores.get(posicao).id , salario); //cria um novo objeto so que de outro tipo
+            professores.set(posicao, novoPorfessor);//troca o objeto existente pelo novo
+            System.out.println(professores.get(posicao));//printa oq esta na nova posiçao
         }
     }
 
     public void atualizarProfessor(int id, double valorHora, int horasTrabalhadas){
-        //comparaçao de ids
+
         if(buscarProfessor(id) != null){
             int posicao = professores.indexOf(buscarProfessor(id));
             Professor novoPorfessor = new ProfessorHorista(professores.get(posicao).nome,professores.get(posicao).id,valorHora,horasTrabalhadas);
@@ -65,21 +61,11 @@ public class GerenciadorProfessor {
     }
     
 
-    // public double calcularSalarioCLT(int id){
-    //     if(buscarProfessor(id) != null){
-    //         if(professores.get(id).tipo == "CLt"){
-    //             return professores.get(id).calcularSalario();
-    //         }else if(professores.get(id).tipo == "Horista"){
-
-    //             return professores.get(id).calcularSalario(331);
-    //         }
-    //         else{
-    //             System.out.println("tipo invalido, tente novamente");
-    //         }
-    //     }
-    // }
-
-    // public double calcularSalarioHorista(int id, int horasTrabalhadas){
-
-    // }
+    public void exibirSalario(int id){
+        if(buscarProfessor(id) != null){
+            double salario = buscarProfessor(id).calcularSalario();
+            System.out.println("usuario de id: " + id + " tem o salario mensal de " + salario);
+        }else
+            System.out.println("usuario de id: " + id + " não foi encotrado");
+    }
 }
